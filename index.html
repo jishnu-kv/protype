@@ -34,7 +34,9 @@
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; scroll-padding-top: 24px; }
     html, body {
-      overflow-x: hidden;
+      overflow: visible !important;
+      height: auto !important;
+      min-height: 100% !important;
       scrollbar-width: none !important;
       -ms-overflow-style: none !important;
     }
@@ -517,11 +519,42 @@
         </div>
         <div class="spec">
           <strong>Network Access</strong>
-          <span>Not required for local fonts; optional only when downloading new Google Fonts.</span>
+          <span><strong>Not required</strong> for local fonts; optional only when downloading new Google Fonts.</span>
         </div>
       </div>
     </section>
 
   </main>
+
+  <!-- Auto-resize communicator when embedded in an iframe -->
+  <script>
+    function sendHeight() {
+      var body = document.body;
+      var html = document.documentElement;
+      var height = Math.max(
+        body ? body.scrollHeight : 0,
+        body ? body.offsetHeight : 0,
+        html ? html.clientHeight : 0,
+        html ? html.scrollHeight : 0,
+        html ? html.offsetHeight : 0
+      );
+      if (height > 0 && window.parent && window.parent !== window) {
+        window.parent.postMessage({ protypeHeight: height }, '*');
+      }
+    }
+    window.addEventListener('load', sendHeight);
+    window.addEventListener('resize', sendHeight);
+    if (window.ResizeObserver && document.body) {
+      new ResizeObserver(sendHeight).observe(document.body);
+    }
+    document.querySelectorAll('details').forEach(function(el) {
+      el.addEventListener('toggle', function() {
+        setTimeout(sendHeight, 60);
+      });
+    });
+    [300, 800, 1500, 3000].forEach(function(delay) {
+      setTimeout(sendHeight, delay);
+    });
+  </script>
 </body>
 </html>
