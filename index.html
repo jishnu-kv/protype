@@ -230,10 +230,11 @@
       padding: 32px 0 48px; 
       border-top: 1px solid var(--line);
     }
+    /* Vertical 1*4 stack for accordion cards */
     .details-grid { 
-      display: grid; 
-      grid-template-columns: repeat(2, minmax(0, 1fr)); 
-      gap: 14px; 
+      display: flex;
+      flex-direction: column;
+      gap: 12px; 
     }
     details { 
       padding: 18px 22px; 
@@ -325,7 +326,6 @@
     @media (max-width: 760px) {
       .page { width: min(100% - 28px, var(--page-width)); }
       .feature-points { grid-template-columns: 1fr; }
-      .details-grid { grid-template-columns: 1fr; }
       .specs { grid-template-columns: 1fr; }
     }
 
@@ -517,7 +517,7 @@
         </div>
         <div class="spec">
           <strong>Network Access</strong>
-          <span><strong>Not required</strong> for local fonts; optional only when downloading new Google Fonts.</span>
+          <span>Not required for local fonts; optional only when downloading new Google Fonts.</span>
         </div>
       </div>
     </section>
