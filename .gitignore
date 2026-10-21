@@ -1,0 +1,52 @@
+# Byte-compiled / optimized files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.zip
+*.egg-info/
+
+# Blender auto-save files
+*.blend1
+*.blend2
+*.blend@
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Media formats not used on GitHub Pages
+*.mp4
+
+# Add-on source code and build scripts (exclude from GitHub Pages repo)
+ProType/
+protype/
+build.py
+build_core.py
+format.py
+AGENTS.md
+README.md
+src/
+dist/
+backup/
+
+
