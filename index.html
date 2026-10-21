@@ -3,22 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f5f5f2">
+  <meta name="theme-color" content="#f7f7f4">
   <meta name="description" content="Browse, preview, and apply fonts without leaving Blender's 3D Viewport. Explore ProType's font browser, style selector, search, filters, and typography tools.">
   <title>ProType — Viewport Typography for Blender</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
     :root {
       color-scheme: light;
-      --ink: #181a18;
-      --muted: #62655f;
-      --soft: #f5f5f2;
-      --paper: #fff;
-      --line: #e3e4df;
-      --accent: #315b4b;
-      --accent-soft: #e9f0eb;
-      --radius: 18px;
-      --page-width: 1080px;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --ink: #111411;
+      --muted: #565952;
+      --soft: #f8f9f6;
+      --paper: #ffffff;
+      --line: #e3e6de;
+      --line-subtle: #ecefe7;
+      --accent: #23553e;
+      --accent-soft: #eaf2ed;
+      --code-bg: #edf1ec;
+      --code-border: #dae0d8;
+      --code-color: #1b3d2c;
+      --radius: 16px;
+      --page-width: 1040px;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-synthesis: none;
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
@@ -27,51 +33,298 @@
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; scroll-padding-top: 24px; }
-    body { margin: 0; background: transparent; color: var(--ink); }
-    a { color: inherit; }
-    a:focus-visible, summary:focus-visible, video:focus-visible {
+    html, body {
+      overflow-x: hidden;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    html::-webkit-scrollbar, body::-webkit-scrollbar {
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+    }
+    body { margin: 0; background: transparent; color: var(--ink); line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    a:focus-visible, summary:focus-visible {
       outline: 3px solid #729782;
       outline-offset: 4px;
     }
-    .page { width: min(var(--page-width), calc(100% - 32px)); margin-inline: auto; }
-    .hero { padding: 24px 0 28px; }
-    .eyebrow { margin: 0 0 8px; color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
-    h1, h2, h3, p { margin-top: 0; }
-    h1 { max-width: 850px; margin-bottom: 10px; font-size: clamp(30px, 5vw, 44px); font-weight: 760; letter-spacing: -.05em; line-height: 1.08; }
-    .hero-copy { max-width: 820px; margin-bottom: 0; color: var(--muted); font-size: 16px; line-height: 1.7; }
-    .section-heading h2 { margin-bottom: 0; font-size: clamp(23px, 3vw, 30px); letter-spacing: -.04em; line-height: 1.15; }
-    .features-heading { padding: 18px 0 12px; border-top: 1px solid var(--line); }
-    .features-heading p { margin: 6px 0 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
 
-    .feature-list { display: grid; gap: 14px; padding-bottom: 38px; }
-    .feature { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 34px); align-items: center; padding: clamp(16px, 2.8vw, 25px); border: 1px solid var(--line); border-radius: 12px; background: var(--paper); }
-    .feature:nth-child(even) .feature-copy { order: 2; }
-    .feature:nth-child(even) .feature-media { order: 1; }
-    .feature-number { margin-bottom: 12px; color: var(--accent); font-size: 11px; font-weight: 800; letter-spacing: .14em; }
-    .feature h3 { margin-bottom: 11px; font-size: clamp(23px, 3vw, 31px); letter-spacing: -.045em; line-height: 1.12; }
-    .feature-copy p { margin-bottom: 14px; color: var(--muted); font-size: 15px; line-height: 1.75; }
+    strong {
+      color: var(--ink);
+      font-weight: 650;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 0.86em;
+      padding: 2px 7px;
+      background: var(--code-bg);
+      border: 1px solid var(--code-border);
+      border-radius: 6px;
+      color: var(--code-color);
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      vertical-align: baseline;
+      white-space: nowrap;
+    }
+
+    .page { width: min(var(--page-width), calc(100% - 32px)); margin-inline: auto; }
+    
+    /* Hero section */
+    .hero { padding: 32px 0 36px; border-bottom: 1px solid var(--line); }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 12px;
+      margin-bottom: 14px;
+      border-radius: 24px;
+      background: var(--accent-soft);
+      border: 1px solid #d4e3d9;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { 
+      max-width: 880px; 
+      margin-bottom: 14px; 
+      font-size: clamp(32px, 5.2vw, 46px); 
+      font-weight: 700; 
+      letter-spacing: -.04em; 
+      line-height: 1.1; 
+    }
+    .hero-copy { 
+      max-width: 820px; 
+      margin-bottom: 0; 
+      color: var(--muted); 
+      font-size: 16.5px; 
+      line-height: 1.75; 
+    }
+
+    /* Headings with description stacked directly below */
+    .section-heading { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 8px; 
+      margin-bottom: 24px; 
+    }
+    .section-heading h2 { 
+      margin-bottom: 0; 
+      font-size: clamp(24px, 3.4vw, 32px); 
+      font-weight: 700; 
+      letter-spacing: -.03em; 
+      line-height: 1.2; 
+    }
+    .section-heading p { 
+      max-width: 820px; 
+      margin: 0; 
+      color: var(--muted); 
+      font-size: 15.5px; 
+      line-height: 1.7; 
+    }
+    .features-heading { 
+      padding-top: 36px; 
+    }
+
+    /* Feature Cards: Full-Width Stacked Layout */
+    .feature-list { display: grid; gap: 26px; padding-bottom: 48px; }
+    .feature { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 16px; 
+      padding: clamp(20px, 3.2vw, 30px); 
+      border: 1px solid var(--line); 
+      border-radius: var(--radius); 
+      background: var(--paper); 
+      box-shadow: 0 3px 18px rgba(0, 0, 0, 0.02);
+    }
+    .feature-header { margin: 0; }
+    .feature-number { 
+      display: inline-block;
+      margin-bottom: 8px; 
+      color: var(--accent); 
+      font-size: 11px; 
+      font-weight: 700; 
+      letter-spacing: .12em; 
+      text-transform: uppercase;
+    }
+    .feature h3 { 
+      margin: 0; 
+      font-size: clamp(22px, 2.8vw, 29px); 
+      font-weight: 700;
+      letter-spacing: -.035em; 
+      line-height: 1.2; 
+    }
+    
+    /* Full-width GIF media directly under heading */
+    .feature-media { 
+      width: 100%; 
+      min-width: 0; 
+      margin: 6px 0 4px; 
+    }
+    .feature-media img { 
+      display: block; 
+      width: 100%; 
+      height: auto; 
+      border: 1px solid var(--line); 
+      border-radius: 10px; 
+      background: #171a18; 
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    }
+    .media-caption { 
+      margin: 9px 2px 0; 
+      color: var(--muted); 
+      font-size: 13px; 
+      line-height: 1.5; 
+    }
+
+    .feature-copy p { 
+      margin-bottom: 14px; 
+      color: var(--muted); 
+      font-size: 15px; 
+      line-height: 1.75; 
+    }
     .feature-copy p:last-child { margin-bottom: 0; }
-    .feature-points { display: grid; gap: 8px; padding: 0; margin: 16px 0 0; list-style: none; }
-    .feature-points li { position: relative; padding-left: 20px; color: #41443f; font-size: 13px; line-height: 1.55; }
-    .feature-points li::before { position: absolute; top: 0; left: 0; color: var(--accent); content: "✓"; font-weight: 800; }
-    .feature-media { min-width: 0; margin: 0; }
-    .feature-media img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; background: #171a18; }
-    .media-caption { margin: 9px 2px 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
-    .details-section { padding: 0 0 72px; }
-    .section-heading { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 30px; align-items: end; margin-bottom: 20px; }
-    .section-heading p { max-width: 650px; margin: 0; color: var(--muted); line-height: 1.75; }
-    .details-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    details { padding: 19px 21px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); }
-    summary { cursor: pointer; font-size: 15px; font-weight: 750; }
-    details p { margin: 12px 0 0; color: var(--muted); font-size: 14px; line-height: 1.75; }
-    .specs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-    .spec { padding: 18px; border: 1px solid var(--line); border-radius: 13px; background: var(--paper); }
-    .spec strong { display: block; margin-bottom: 6px; font-size: 14px; }
-    .spec span { color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+    /* Bullet points organized in a clean card container */
+    .feature-points { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); 
+      gap: 12px 24px; 
+      padding: 16px 20px; 
+      margin: 16px 0 0; 
+      background: var(--soft);
+      border: 1px solid var(--line-subtle);
+      border-radius: 10px;
+      list-style: none; 
+    }
+    .feature-points li { 
+      position: relative; 
+      padding-left: 22px; 
+      color: #3b3e38; 
+      font-size: 13.5px; 
+      line-height: 1.6; 
+    }
+    .feature-points li::before { 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      color: var(--accent); 
+      content: "✓"; 
+      font-weight: 700; 
+      font-size: 14px;
+    }
+
+    /* Details and Specifications */
+    .details-section { 
+      padding: 32px 0 48px; 
+      border-top: 1px solid var(--line);
+    }
+    .details-grid { 
+      display: grid; 
+      grid-template-columns: repeat(2, minmax(0, 1fr)); 
+      gap: 14px; 
+    }
+    details { 
+      padding: 18px 22px; 
+      border: 1px solid var(--line); 
+      border-radius: 14px; 
+      background: var(--paper); 
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    details:hover {
+      border-color: #cbd2c7;
+    }
+    details[open] {
+      border-color: #bfd0c5;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
+    }
+    summary { 
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer; 
+      list-style: none;
+      user-select: none;
+      font-size: 15.5px; 
+      font-weight: 650; 
+      color: var(--ink);
+    }
+    /* Hide native disclosure marker */
+    summary::-webkit-details-marker,
+    summary::marker {
+      display: none;
+      content: "";
+    }
+    /* Sleek custom circular chevron icon */
+    summary::after {
+      content: "";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      margin-left: 12px;
+      border-radius: 50%;
+      background-color: var(--soft);
+      border: 1px solid var(--line-subtle);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2323553e' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-size: 13px 13px;
+      background-repeat: no-repeat;
+      background-position: center;
+      transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1), background-color 0.2s ease, border-color 0.2s ease;
+    }
+    summary:hover::after {
+      background-color: var(--accent-soft);
+      border-color: #d4e3d9;
+    }
+    details[open] summary::after {
+      transform: rotate(180deg);
+      background-color: var(--accent-soft);
+      border-color: #d4e3d9;
+    }
+    details p { 
+      margin: 12px 0 0; 
+      color: var(--muted); 
+      font-size: 14px; 
+      line-height: 1.75; 
+    }
+    .specs { 
+      display: grid; 
+      grid-template-columns: repeat(3, minmax(0, 1fr)); 
+      gap: 14px; 
+    }
+    .spec { 
+      padding: 20px 22px; 
+      border: 1px solid var(--line); 
+      border-radius: 14px; 
+      background: var(--paper); 
+    }
+    .spec strong { 
+      display: block; 
+      margin-bottom: 6px; 
+      font-size: 14.5px; 
+    }
+    .spec span { 
+      color: var(--muted); 
+      font-size: 13.5px; 
+      line-height: 1.65; 
+    }
+
     @media (max-width: 760px) {
       .page { width: min(100% - 28px, var(--page-width)); }
-      .feature { grid-template-columns: 1fr; gap: 20px; }
-      .feature:nth-child(even) .feature-copy, .feature:nth-child(even) .feature-media { order: initial; }
+      .feature-points { grid-template-columns: 1fr; }
       .details-grid { grid-template-columns: 1fr; }
       .specs { grid-template-columns: 1fr; }
     }
@@ -84,155 +337,188 @@
 </head>
 <body>
   <main class="page" id="top">
+    <!-- Hero -->
     <section class="hero" aria-labelledby="page-title">
-      <p class="eyebrow">Blender 4.2+</p>
-      <h1 id="page-title">ProType — viewport typography for Blender</h1>
-      <p class="hero-copy">Browse, preview, and apply fonts to 3D Text objects without leaving the 3D Viewport. ProType brings font search, style selection, and practical typography controls into your Blender workflow.</p>
+      <div class="badge-pill">
+        <span class="badge-dot"></span> Blender 4.2+ Compatible
+      </div>
+      <h1 id="page-title">ProType — Viewport Typography for Blender</h1>
+      <p class="hero-copy">Browse, preview, and apply fonts to <strong>3D Text objects</strong> without leaving Blender's <strong>3D Viewport</strong>. ProType brings instantaneous font search, style variant selection, and intuitive typography controls right into your active scene workflow.</p>
     </section>
 
+    <!-- Section: Core Features -->
     <section class="features-heading section-heading" aria-labelledby="features-title">
       <h2 id="features-title">Features</h2>
-      <p>Select a 3D Text object to access the font browser, compare styles, and adjust typography right in the viewport.</p>
+      <p>Select any <strong>3D Text</strong> object in your viewport to access the interactive font picker, compare typefaces in real time, and adjust typography properties.</p>
     </section>
 
     <div class="feature-list">
+      <!-- Feature 01 -->
       <article class="feature" id="font-browser">
-        <div class="feature-copy">
-          <p class="feature-number">01 / BROWSE &amp; PREVIEW</p>
+        <div class="feature-header">
+          <span class="feature-number">01 / Browse &amp; Preview</span>
           <h3>Compare fonts right in your viewport.</h3>
-          <p>Open the font picker from the 3D Viewport header to browse a family-organized list. Each row previews text in its actual typeface, making it easier to compare letterforms before you apply a font.</p>
-          <ul class="feature-points">
-            <li>Controls appear contextually for a selected 3D Text object.</li>
-            <li>Preview the font name or choose custom sample text in Preferences.</li>
-            <li>Apply a font to selected text objects without browsing system folders manually.</li>
-          </ul>
         </div>
         <figure class="feature-media">
-          <img src="public/Browse.gif" alt="Animated demonstration of browsing and applying fonts in the ProType popup" loading="lazy" decoding="async">
-          <p class="media-caption">Browse font families, preview the type, and apply a selection.</p>
+          <img src="https://jishnu-kv.github.io/protype/public/Browse.gif" alt="Animated demonstration of browsing and applying fonts in the ProType popup" loading="lazy" decoding="async">
+          <p class="media-caption">Browse font families, preview actual letterforms, and apply a selection.</p>
         </figure>
+        <div class="feature-copy">
+          <p>Open the font picker directly from the <strong>3D Viewport header</strong> to browse a structured catalog. Each row previews sample text in its actual typeface, allowing you to compare letterforms and stylistic weight before you apply a font.</p>
+          <ul class="feature-points">
+            <li><strong>Contextual Display:</strong> Controls appear automatically whenever a <code>3D Text</code> object is active.</li>
+            <li><strong>Custom Sample Text:</strong> Preview the font name or specify custom specimen text in <code>Preferences</code>.</li>
+            <li><strong>One-Click Application:</strong> Instantly apply fonts to selected objects without opening external folders.</li>
+          </ul>
+        </div>
       </article>
 
+      <!-- Feature 02 -->
       <article class="feature" id="search-filters">
-        <div class="feature-copy">
-          <p class="feature-number">02 / SEARCH &amp; FILTER</p>
+        <div class="feature-header">
+          <span class="feature-number">02 / Search &amp; Filter</span>
           <h3>Go from a broad library to a shortlist.</h3>
-          <p>Search font and family names, then refine results with source tabs and category filters. When browsing Google Fonts, weight filters help narrow those results by weight. Reset filters whenever you want to start over.</p>
-          <ul class="feature-points">
-            <li>Search local, custom-folder, or enabled Google Fonts catalogs.</li>
-            <li>Filter by sans-serif, serif, display, handwriting, and monospace categories.</li>
-            <li>Google weight filters are shown only for Google Fonts.</li>
-          </ul>
         </div>
         <figure class="feature-media">
-          <img src="public/search.gif" alt="Animated demonstration of searching the ProType font list" loading="lazy" decoding="async">
-          <p class="media-caption">Use search to find a family, then narrow or broaden the results with filters.</p>
+          <img src="https://jishnu-kv.github.io/protype/public/search.gif" alt="Animated demonstration of searching the ProType font list" loading="lazy" decoding="async">
+          <p class="media-caption">Search by name, then narrow or broaden results with dedicated category filters.</p>
         </figure>
+        <div class="feature-copy">
+          <p>Search font and family names in real time, then refine matches with <strong>source tabs</strong> and <strong>category filters</strong>. When browsing Google Fonts, targeted weight filters help narrow selections by specific font weight.</p>
+          <ul class="feature-points">
+            <li><strong>Multi-Source Search:</strong> Instantly query across local system fonts, studio folders, and online catalogs.</li>
+            <li><strong>Category Filtering:</strong> Filter by <code>Sans-Serif</code>, <code>Serif</code>, <code>Display</code>, <code>Handwriting</code>, and <code>Monospace</code>.</li>
+            <li><strong>Google Weight Filters:</strong> Refine online Google Fonts by light, regular, medium, or bold weights.</li>
+          </ul>
+        </div>
       </article>
 
-      <article class="feature">
-        <div class="feature-copy">
-          <p class="feature-number">03 / SOURCE TABS</p>
+      <!-- Feature 03 -->
+      <article class="feature" id="source-tabs">
+        <div class="feature-header">
+          <span class="feature-number">03 / Source Tabs</span>
           <h3>Browse by where your fonts come from.</h3>
-          <p>Switch between available font sources in the picker. System and user fonts are discovered from the operating system; custom folders let you include project or studio libraries. Google Fonts can be enabled separately in ProType Preferences.</p>
-          <ul class="feature-points">
-            <li>Choose from All, System, User, Custom, and Google sources as available.</li>
-            <li>Add folders from Edit &gt; Preferences &gt; Add-ons &gt; ProType.</li>
-            <li>Google Fonts require Blender online access to download new fonts.</li>
-          </ul>
         </div>
         <figure class="feature-media">
-          <img src="public/Filter.gif" alt="Animated demonstration of selecting font sources and category filters" loading="lazy" decoding="async">
-          <p class="media-caption">Choose a source and refine the list with available filters.</p>
+          <img src="https://jishnu-kv.github.io/protype/public/Filter.gif" alt="Animated demonstration of selecting font sources and category filters" loading="lazy" decoding="async">
+          <p class="media-caption">Choose a font source and refine results with available category filters.</p>
         </figure>
+        <div class="feature-copy">
+          <p>Switch between font sources right inside the picker. <strong>System and user fonts</strong> are discovered automatically from the operating system, while <strong>custom folders</strong> let you mount project libraries or shared studio assets.</p>
+          <ul class="feature-points">
+            <li><strong>Unified Sources:</strong> Filter between <code>All</code>, <code>System</code>, <code>User</code>, <code>Custom</code>, and <code>Google</code> tabs.</li>
+            <li><strong>Custom Directories:</strong> Add extra folders via <code>Edit &gt; Preferences &gt; Add-ons &gt; ProType</code>.</li>
+            <li><strong>Google Fonts:</strong> Download and cache online Google Fonts directly inside Blender (requires <code>Online Access</code>).</li>
+          </ul>
+        </div>
       </article>
 
+      <!-- Feature 04 -->
       <article class="feature" id="styles">
-        <div class="feature-copy">
-          <p class="feature-number">04 / FAMILY STYLES</p>
+        <div class="feature-header">
+          <span class="feature-number">04 / Family Styles</span>
           <h3>Choose a style separately from its family.</h3>
-          <p>The font button identifies the family, while the adjacent style dropdown lets you choose an available variant. For variable fonts with named instances, ProType creates cached static font files so Blender can load the selected style.</p>
-          <ul class="feature-points">
-            <li>See available styles for the active text font family.</li>
-            <li>Variable-font named instances can be selected as distinct styles.</li>
-            <li>Generated static instances are cached in Blender's user data folder.</li>
-          </ul>
         </div>
         <figure class="feature-media">
-          <img src="public/Style.gif" alt="Animated demonstration of choosing a font style from the ProType dropdown" loading="lazy" decoding="async">
-          <p class="media-caption">Select a style from the family dropdown next to the font picker.</p>
+          <img src="https://jishnu-kv.github.io/protype/public/Style.gif" alt="Animated demonstration of choosing a font style from the ProType dropdown" loading="lazy" decoding="async">
+          <p class="media-caption">Select an available style variant from the family dropdown next to the font picker.</p>
         </figure>
+        <div class="feature-copy">
+          <p>The primary font button identifies the family, while the adjacent <strong>style dropdown</strong> lets you select any available variant. For variable fonts with named instances, ProType automatically generates cached static font files so Blender can apply each variation.</p>
+          <ul class="feature-points">
+            <li><strong>Style Isolation:</strong> View all styles available for the active text font family.</li>
+            <li><strong>Variable Font Support:</strong> Select named instances from variable <code>.ttf</code> and <code>.otf</code> fonts.</li>
+            <li><strong>Automatic Static Cache:</strong> Static font files are generated and cached in Blender's user data folder.</li>
+          </ul>
+        </div>
       </article>
 
+      <!-- Feature 05 -->
       <article class="feature" id="typography">
-        <div class="feature-copy">
-          <p class="feature-number">05 / QUICK TYPOGRAPHY</p>
+        <div class="feature-header">
+          <span class="feature-number">05 / Quick Typography</span>
           <h3>Make common text edits without leaving the viewport.</h3>
-          <p>The typography popover puts frequently used text and geometry controls close to the selected object. Edit casing and size, adjust spacing and alignment, and continue to extrusion, bevel, and other supported curve settings.</p>
-          <ul class="feature-points">
-            <li>Change text case and size.</li>
-            <li>Adjust character, word, and line spacing and text alignment.</li>
-            <li>Access extrusion, bevel, and other geometry controls.</li>
-          </ul>
         </div>
         <figure class="feature-media">
-          <img src="public/Typorgaphy-popover.gif" alt="Animated demonstration of text, layout, and geometry controls in the ProType typography popover" loading="lazy" decoding="async">
-          <p class="media-caption">Text, layout, and geometry settings are grouped in a viewport popover.</p>
+          <img src="https://jishnu-kv.github.io/protype/public/Typorgaphy-popover.gif" alt="Animated demonstration of text, layout, and geometry controls in the ProType typography popover" loading="lazy" decoding="async">
+          <p class="media-caption">Text layout, case, spacing, and curve geometry grouped in an interactive popover.</p>
         </figure>
+        <div class="feature-copy">
+          <p>The <strong>Typography Popover</strong> puts frequently used text styling and 3D geometry controls directly at your cursor. Tweak casing, adjust spacing and alignment, and modify extrusion and bevel depth without switching to the Properties editor.</p>
+          <ul class="feature-points">
+            <li><strong>Case &amp; Size:</strong> Quickly change text case (<code>UPPERCASE</code>, <code>lowercase</code>, <code>Title</code>) and size.</li>
+            <li><strong>Layout Spacing:</strong> Fine-tune <code>Character Spacing</code>, <code>Word Spacing</code>, and <code>Line Spacing</code>.</li>
+            <li><strong>3D Geometry:</strong> Immediate access to <code>Extrude</code>, <code>Bevel Depth</code>, and curve resolution settings.</li>
+          </ul>
+        </div>
       </article>
 
+      <!-- Feature 06 -->
       <article class="feature" id="tooltip">
-        <div class="feature-copy">
-          <p class="feature-number">06 / SPECIMEN TOOLTIP</p>
+        <div class="feature-header">
+          <span class="feature-number">06 / Specimen Tooltip</span>
           <h3>Take a closer look before you commit.</h3>
-          <p>Hover over a font row to open a larger specimen preview. Configure whether the tooltip appears by default and set its sample text independently from the font-list preview.</p>
-          <ul class="feature-points">
-            <li>Preview a larger sample in the typeface you're inspecting.</li>
-            <li>Set a dedicated specimen phrase in Add-on Preferences.</li>
-            <li>Keep the tooltip off when you prefer a simpler browsing view.</li>
-          </ul>
         </div>
         <figure class="feature-media">
-          <img src="public/Tooltip.gif" alt="Animated demonstration of the ProType font specimen hover tooltip" loading="lazy" decoding="async">
-          <p class="media-caption">Inspect a font with the hover preview and configure its sample in Preferences.</p>
+          <img src="https://jishnu-kv.github.io/protype/public/Tooltip.gif" alt="Animated demonstration of the ProType font specimen hover tooltip" loading="lazy" decoding="async">
+          <p class="media-caption">Inspect a font with the hover preview and configure sample text in Preferences.</p>
         </figure>
+        <div class="feature-copy">
+          <p>Hover over any font row to reveal an enlarged <strong>specimen preview tooltip</strong>. This lets you inspect subtle glyph details, curves, and kerning in high resolution before committing the font to your 3D objects.</p>
+          <ul class="feature-points">
+            <li><strong>Large Glyph Inspection:</strong> Preview a high-resolution sample in the typeface you are inspecting.</li>
+            <li><strong>Independent Sample Text:</strong> Set a dedicated specimen phrase in <code>Add-on Preferences</code>.</li>
+            <li><strong>Toggleable Tooltip:</strong> Keep the hover tooltip disabled when you prefer a lightweight browsing view.</li>
+          </ul>
+        </div>
       </article>
     </div>
 
+    <!-- Section: Font Sources -->
     <section class="details-section" id="font-sources" aria-labelledby="font-sources-title">
       <div class="section-heading">
         <h2 id="font-sources-title">Use your font library, your way.</h2>
-        <p>ProType works with fonts already available on your computer and can include additional folders. Online fonts are optional; the local font workflow does not require internet access.</p>
+        <p>ProType works seamlessly with fonts already installed on your system and supports extra studio directories. Local font workflows operate <strong>100% offline</strong> with zero network dependency.</p>
       </div>
       <div class="details-grid">
         <details>
           <summary>System and user font discovery</summary>
-          <p>ProType discovers fonts from the operating system's standard locations. Supported discovery paths vary by platform and installed font setup.</p>
+          <p>Automatically discovers installed fonts from standard OS paths (<code>C:\Windows\Fonts</code>, <code>/Library/Fonts</code>, <code>/usr/share/fonts</code>, and user font directories).</p>
         </details>
         <details>
           <summary>Custom project and studio folders</summary>
-          <p>Add one or more directories in ProType Add-on Preferences to include fonts used by a project or shared studio library.</p>
+          <p>Add one or more directories in <code>Preferences &gt; Add-ons &gt; ProType</code> to mount shared studio libraries or project-specific font folders.</p>
         </details>
         <details>
           <summary>Optional Google Fonts access</summary>
-          <p>Enable Google Fonts in ProType Preferences and allow online access in Blender's System Preferences to discover and download online fonts. Downloaded files are cached locally for reuse.</p>
+          <p>Enable Google Fonts in ProType preferences and allow <code>Online Access</code> in Blender's System settings to browse and download online fonts. Downloaded fonts are cached locally for reuse.</p>
         </details>
         <details>
           <summary>Preview and tooltip preferences</summary>
-          <p>Choose whether font rows show the font name or custom sample text. The hover specimen has its own enable setting and sample text.</p>
+          <p>Choose whether font rows show font names or custom sample text like <code>Hamburgevons 123</code>. The hover specimen tooltip has its own independent sample text.</p>
         </details>
       </div>
     </section>
 
+    <!-- Section: Requirements -->
     <section class="details-section" aria-labelledby="requirements-title">
       <div class="section-heading">
         <h2 id="requirements-title">Made for Blender text workflows.</h2>
-        <p>ProType adds viewport controls for Blender 3D Text objects. Font availability and licensing remain tied to the fonts installed or downloaded on your system.</p>
+        <p>Engineered exclusively for Blender's native <strong>3D Text object</strong> pipeline. Lightweight, non-destructive, and optimized for daily creative work.</p>
       </div>
       <div class="specs">
-        <div class="spec"><strong>Blender</strong><span>Blender 4.2 or newer.</span></div>
-        <div class="spec"><strong>Font sources</strong><span>System, user, custom-folder, and optional Google Fonts catalog.</span></div>
-        <div class="spec"><strong>Network access</strong><span>Not needed for local fonts. Required to download new Google Fonts.</span></div>
+        <div class="spec">
+          <strong>Blender Version</strong>
+          <span>Compatible with <code>Blender 4.2+</code>, <code>4.3+</code>, and newer versions.</span>
+        </div>
+        <div class="spec">
+          <strong>Font Sources</strong>
+          <span>System, user, custom directories, and optional Google Fonts catalog.</span>
+        </div>
+        <div class="spec">
+          <strong>Network Access</strong>
+          <span><strong>Not required</strong> for local fonts; optional only when downloading new Google Fonts.</span>
+        </div>
       </div>
     </section>
 
