@@ -37,6 +37,10 @@ desktop.ini
 # Media formats not used on GitHub Pages
 *.mp4
 
+# Binaries and installers
+*.msi
+*.exe
+
 # Add-on source code and build scripts (exclude from GitHub Pages repo)
 ProType/
 protype/
