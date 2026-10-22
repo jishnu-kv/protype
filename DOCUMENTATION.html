@@ -1,0 +1,264 @@
+<div class="protype-documentation">
+
+  <!-- Header / Overview -->
+  <div class="doc-header">
+    <h2>ProType — Documentation &amp; User Guide</h2>
+    <p>
+      <strong>ProType</strong> is an interactive font browser and viewport typography tool for Blender 4.2+.
+      It embeds font selection, style switching, and text formatting controls directly into the 3D Viewport header
+      whenever a 3D Text object is active.
+    </p>
+  </div>
+
+  <hr>
+
+  <!-- 1. Installation -->
+  <div class="doc-section" id="installation">
+    <h3>1. Installation &amp; Setup</h3>
+    <p>ProType is packaged as a standard Blender 4.2+ extension.</p>
+    <ol>
+      <li>Open Blender <strong>4.2 or newer</strong>.</li>
+      <li>Navigate to <strong>Edit &gt; Preferences &gt; Get Extensions</strong>.</li>
+      <li>Click the dropdown menu arrow in the top-right corner of the Preferences window.</li>
+      <li>Select <strong>Install from Disk...</strong>.</li>
+      <li>Choose the downloaded ProType package (<code>protype-1.0.0.zip</code>).</li>
+      <li>Ensure the addon checkbox is enabled under <strong>Preferences &gt; Add-ons &gt; ProType</strong>.</li>
+    </ol>
+  </div>
+
+  <hr>
+
+  <!-- 2. Getting Started -->
+  <div class="doc-section" id="getting-started">
+    <h3>2. Getting Started</h3>
+    <ol>
+      <li>Add a 3D Text object to your scene: press <code>Shift + A</code> &gt; <strong>Text</strong>.</li>
+      <li>Ensure the text object is active (selected in the 3D Viewport).</li>
+      <li>Look at the <strong>3D Viewport Header</strong>: the ProType font toolbar appears automatically next to the tool settings.</li>
+      <li>Click the <strong>Font Name</strong> button to open the interactive font browser popup.</li>
+    </ol>
+    <figure>
+      <img src="https://jishnu-kv.github.io/protype/public/Browse.gif" alt="Browsing fonts in the ProType popup" loading="lazy">
+      <figcaption>Open the font picker from the 3D Viewport header to preview and apply fonts instantly.</figcaption>
+    </figure>
+  </div>
+
+  <hr>
+
+  <!-- 3. Font Browser & Live Previews -->
+  <div class="doc-section" id="font-browser">
+    <h3>3. Interactive Font Browser</h3>
+    <p>The font browser provides real-time GPU-rendered previews using actual font binaries.</p>
+    <ul>
+      <li><strong>Live Typography Previews:</strong> Each row renders sample text in its true typeface so you can evaluate glyph shapes, weights, and proportions before applying.</li>
+      <li><strong>Family Grouping:</strong> Typefaces are grouped by family, keeping your list organized and clutter-free.</li>
+      <li><strong>One-Click Apply:</strong> Click any font row to immediately assign it to the active 3D Text object (and all selected text objects).</li>
+      <li><strong>Favorites:</strong> Click the star icon (<code>★</code>) next to any font to toggle it as a favorite for quick access.</li>
+      <li><strong>Fast Font Cycling Shortcut:</strong> Press <code>Ctrl + Mouse Wheel Up</code> or <code>Ctrl + Mouse Wheel Down</code> in the 3D Viewport to step through your font catalog in sequence without opening the popup.</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <!-- 4. Searching & Filtering -->
+  <div class="doc-section" id="search-and-filters">
+    <h3>4. Search &amp; Filtering</h3>
+    <figure>
+      <img src="https://jishnu-kv.github.io/protype/public/search.gif" alt="Searching fonts in ProType" loading="lazy">
+      <figcaption>Real-time fuzzy search across family names, font styles, and file names.</figcaption>
+    </figure>
+    <ul>
+      <li><strong>Instant Search:</strong> Click inside the search box at the top of the popup and type to filter fonts in real time. Use <code>Ctrl + A</code> to select all text, or double-click to clear/replace queries.</li>
+      <li><strong>Category Filters:</strong> Use the Filter popover (funnel icon in the header) to restrict fonts to:
+        <ul>
+          <li><code>Sans-Serif</code></li>
+          <li><code>Serif</code></li>
+          <li><code>Display</code></li>
+          <li><code>Handwriting</code></li>
+          <li><code>Monospace</code></li>
+        </ul>
+      </li>
+      <li><strong>Weight Filters (Google Fonts):</strong> When browsing online Google Fonts, filter specifically by <code>Thin</code>, <code>Light</code>, <code>Regular</code>, <code>Medium</code>, <code>Semi-Bold</code>, <code>Bold</code>, or <code>Black</code>.</li>
+      <li><strong>Reset Filters &amp; Rescan:</strong> The filter popover includes a <strong>Reset Filters</strong> button and a <strong>Rescan Fonts</strong> button to refresh newly added fonts on disk.</li>
+    </ul>
+    <figure>
+      <img src="https://jishnu-kv.github.io/protype/public/Filter.gif" alt="Filtering fonts by category and source" loading="lazy">
+      <figcaption>Select source tabs and refine font lists using category filters.</figcaption>
+    </figure>
+  </div>
+
+  <hr>
+
+  <!-- 5. Font Sources -->
+  <div class="doc-section" id="font-sources">
+    <h3>5. Font Sources &amp; Directory Management</h3>
+    <p>ProType organizes fonts across dedicated source tabs:</p>
+    <ul>
+      <li><strong>All:</strong> Unified list combining all available fonts.</li>
+      <li><strong>System:</strong> Operating system fonts automatically scanned from:
+        <ul>
+          <li><strong>Windows:</strong> <code>C:\Windows\Fonts</code> and Windows Registry font entries.</li>
+          <li><strong>macOS:</strong> <code>/System/Library/Fonts</code> and <code>/Library/Fonts</code>.</li>
+          <li><strong>Linux:</strong> <code>/usr/share/fonts</code> and <code>/usr/local/share/fonts</code>.</li>
+        </ul>
+      </li>
+      <li><strong>User:</strong> Per-user installed fonts (e.g., <code>AppData\Local\Microsoft\Windows\Fonts</code>, <code>~/Library/Fonts</code>, or <code>~/.fonts</code>).</li>
+      <li><strong>Custom:</strong> Arbitrary folders added by the user in Add-on Preferences (ideal for project font folders or shared studio drives).</li>
+      <li><strong>Google:</strong> Over 1,500+ Google Fonts families available to browse, download, and cache locally.</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <!-- 6. Style Variants & Variable Fonts -->
+  <div class="doc-section" id="styles">
+    <h3>6. Family Styles &amp; Variable Fonts</h3>
+    <figure>
+      <img src="https://jishnu-kv.github.io/protype/public/Style.gif" alt="Selecting font styles" loading="lazy">
+      <figcaption>Choose style variants directly from the style dropdown next to the font button.</figcaption>
+    </figure>
+    <ul>
+      <li><strong>Style Selector:</strong> Located directly beside the main font button in the 3D Viewport header. Click it to choose any variant (e.g., <em>Light</em>, <em>Regular</em>, <em>Bold</em>, <em>Italic</em>, <em>Black</em>) belonging to the active font family.</li>
+      <li><strong>Variable Font Support:</strong> When using variable <code>.ttf</code> or <code>.otf</code> fonts, ProType identifies all named style instances. Blender natively only applies static font files, so ProType automatically extracts and caches static instances into Blender's user data directory on demand.</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <!-- 7. Quick Typography Popover -->
+  <div class="doc-section" id="quick-typography">
+    <h3>7. Quick Typography Popover</h3>
+    <figure>
+      <img src="https://jishnu-kv.github.io/protype/public/Typorgaphy-popover.gif" alt="Quick Typography Popover" loading="lazy">
+      <figcaption>Make character, layout, alignment, and 3D extrusion tweaks directly from the header.</figcaption>
+    </figure>
+    <p>Click the typography icon (<code>Small Caps</code>) in the Viewport header to open the quick styling popover:</p>
+    <ul>
+      <li><strong>Text Case:</strong> Instant one-click transformations:
+        <ul>
+          <li><code>UPPER</code>: Converts text to all uppercase.</li>
+          <li><code>lower</code>: Converts text to all lowercase.</li>
+          <li><code>Title</code>: Capitalizes each word.</li>
+        </ul>
+      </li>
+      <li><strong>Text Size:</strong> Adjust the base font scale.</li>
+      <li><strong>Layout &amp; Alignment:</strong>
+        <ul>
+          <li>Horizontal and Vertical alignment options.</li>
+          <li><code>Character Spacing</code> (tracking / kerning).</li>
+          <li><code>Word Spacing</code> and <code>Line Spacing</code> (leading).</li>
+          <li><code>Offset X</code> and <code>Offset Y</code>.</li>
+        </ul>
+      </li>
+      <li><strong>3D Geometry:</strong>
+        <ul>
+          <li><code>Shear</code> and <code>Offset</code>.</li>
+          <li><code>Extrude</code>: Add depth to your text.</li>
+          <li><code>Bevel Depth</code> and <code>Bevel Resolution</code>: Create rounded or chamfered edges on 3D text.</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <!-- 8. Hover Specimen Tooltip -->
+  <div class="doc-section" id="specimen-tooltip">
+    <h3>8. Specimen Hover Tooltip</h3>
+    <figure>
+      <img src="https://jishnu-kv.github.io/protype/public/Tooltip.gif" alt="Specimen hover tooltip" loading="lazy">
+      <figcaption>Inspect large letterforms, curves, and kerning in the high-resolution hover tooltip.</figcaption>
+    </figure>
+    <ul>
+      <li>Hover over any font row in the browser to trigger an enlarged specimen tooltip.</li>
+      <li>Allows inspection of fine typographic details, serifs, and kerning pairs before applying.</li>
+      <li>Can be enabled or disabled in <strong>Preferences &gt; Add-ons &gt; ProType</strong>.</li>
+      <li>Customizable specimen text string configurable independently from list row text.</li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <!-- 9. Add-on Preferences -->
+  <div class="doc-section" id="preferences">
+    <h3>9. Add-on Preferences Guide</h3>
+    <p>Access settings via <strong>Edit &gt; Preferences &gt; Add-ons &gt; ProType</strong>:</p>
+    <ul>
+      <li><strong>Font List Preview:</strong>
+        <ul>
+          <li><code>Preview Mode</code>: Choose whether font rows display the typeface's own name (<strong>Font Name</strong>) or sample text (<strong>Custom</strong>).</li>
+          <li><code>Sample Text</code>: The text rendered in preview rows (defaults to <code>Hamburgevons 123</code>).</li>
+        </ul>
+      </li>
+      <li><strong>Online Fonts (Google Fonts):</strong>
+        <ul>
+          <li>Toggle Google Fonts catalog integration.</li>
+          <li><em>Note:</em> Requires Blender's <strong>System &gt; Online Access</strong> setting to be allowed.</li>
+        </ul>
+      </li>
+      <li><strong>Hover Tooltip:</strong>
+        <ul>
+          <li>Toggle tooltip visibility on hover.</li>
+          <li>Set custom sample text specific to the specimen preview.</li>
+        </ul>
+      </li>
+      <li><strong>Custom Font Folders:</strong>
+        <ul>
+          <li>Click <code>+</code> to add local project or studio folders.</li>
+          <li>Click <code>-</code> to remove a directory.</li>
+          <li>Fonts in custom folders appear immediately under the <strong>Custom</strong> source tab.</li>
+        </ul>
+      </li>
+      <li><strong>Manage Favorites &amp; Recents:</strong>
+        <ul>
+          <li>View current counts of starred favorites and recently applied fonts.</li>
+          <li>Use <code>Clear Favorites</code> or <code>Clear Recents</code> buttons to reset saved history.</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <hr>
+
+  <!-- 10. Frequently Asked Questions -->
+  <div class="doc-section" id="faq">
+    <h3>10. Frequently Asked Questions (FAQ)</h3>
+
+    <details>
+      <summary><strong>Why don't I see the ProType font toolbar in my 3D Viewport?</strong></summary>
+      <p>ProType is contextual: it only appears when an active <strong>3D Text object</strong> (<code>FONT</code> type) is selected in the 3D Viewport. If a mesh, curve, or camera is selected, the toolbar remains hidden to save viewport space.</p>
+    </details>
+
+    <details>
+      <summary><strong>Does ProType require an internet connection?</strong></summary>
+      <p>No. All local font workflows (System fonts, User fonts, and Custom studio folders) are <strong>100% offline</strong> with zero network communication. Network access is only used if you choose to browse and download online Google Fonts.</p>
+    </details>
+
+    <details>
+      <summary><strong>How do I enable Google Fonts?</strong></summary>
+      <p>Two simple steps:</p>
+      <ol>
+        <li>Go to Blender's <strong>Preferences &gt; System &gt; Network</strong> and allow <strong>Online Access</strong>.</li>
+        <li>In <strong>Preferences &gt; Add-ons &gt; ProType</strong>, ensure <strong>Enable Google Fonts</strong> is checked.</li>
+      </ol>
+      <p>Once enabled, the <em>Google</em> tab will populate in the font browser. Downloaded fonts are cached locally for offline reuse.</p>
+    </details>
+
+    <details>
+      <summary><strong>How do Variable Fonts work?</strong></summary>
+      <p>Blender does not natively expose variable font axis sliders. ProType reads the named variation instances defined in the font (such as SemiBold, ExtraBold, Condensed) and generates static TTF/OTF files into Blender's user cache so Blender can apply each variation properly.</p>
+    </details>
+
+    <details>
+      <summary><strong>Can I apply fonts to multiple text objects at once?</strong></summary>
+      <p>Yes. Select multiple 3D Text objects with one active, then choose a font or use <code>Ctrl + Mouse Wheel</code>. ProType updates all selected 3D Text objects simultaneously.</p>
+    </details>
+
+    <details>
+      <summary><strong>Which Blender versions are supported?</strong></summary>
+      <p>ProType is built for Blender <strong>4.2 LTS, 4.3+, and newer</strong> utilizing the modern Blender Extension system and GPU shader APIs.</p>
+    </details>
+
+  </div>
+
+</div>

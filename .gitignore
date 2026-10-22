@@ -44,6 +44,7 @@ desktop.ini
 # Add-on source code and build scripts (exclude from GitHub Pages repo)
 ProType/
 protype/
+Images/
 build.py
 build_core.py
 format.py
